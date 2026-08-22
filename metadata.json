@@ -1,0 +1,6 @@
+{
+  "name": "JAL'S Restaurant & Cafe",
+  "description": "Premium modern website for JAL'S Restaurant & Cafe in Ras Al Khaimah, UAE. Serving comforting American fast-casual favorites with generous portions and warm hospitality.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
