@@ -46,6 +46,10 @@ export interface Review {
   source: string;
   verified: boolean;
   date?: string;
+  favoriteDish?: string;
+  visitType?: string;
+  isUserSubmitted?: boolean;
+  likes?: number;
 }
 
 export interface GalleryItem {
