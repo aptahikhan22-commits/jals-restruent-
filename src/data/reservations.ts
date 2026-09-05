@@ -1,0 +1,103 @@
+import { Reservation } from '../types';
+
+export const initialReservationsData: Reservation[] = [
+  {
+    id: 'JAL-1001',
+    customerName: 'Tariq Al-Mansoor',
+    phone: '+971 50 123 4567',
+    email: 'tariq.mansoor@example.ae',
+    guestsCount: 4,
+    date: '2026-09-05',
+    time: '19:30',
+    seatingPreference: 'family-booth',
+    specialRequests: 'Celebrating a family birthday, would appreciate a quiet corner booth if available.',
+    status: 'confirmed',
+    tableNumber: 'Booth B-4',
+    staffNotes: 'Birthday candle arranged with complimentary Spanish latte cake slice.',
+    createdAt: '2026-09-04T14:20:00Z'
+  },
+  {
+    id: 'JAL-1002',
+    customerName: 'Elena Rostova',
+    phone: '+971 55 987 6543',
+    email: 'elena.rostova@example.com',
+    guestsCount: 2,
+    date: '2026-09-05',
+    time: '20:00',
+    seatingPreference: 'terrace',
+    specialRequests: 'Outdoor terrace seating preferred with nice evening breeze view.',
+    status: 'pending',
+    tableNumber: 'Terrace T-2',
+    staffNotes: 'Requested reminder call 1 hour before.',
+    createdAt: '2026-09-05T08:15:00Z'
+  },
+  {
+    id: 'JAL-1003',
+    customerName: 'Rashid & Sarah Khalid',
+    phone: '+971 52 456 7890',
+    email: 'rashid.k@example.ae',
+    guestsCount: 6,
+    date: '2026-09-05',
+    time: '21:00',
+    seatingPreference: 'indoor',
+    specialRequests: 'High chair needed for 1 toddler. Interested in Tico Crispy platters.',
+    status: 'confirmed',
+    tableNumber: 'Table T-12',
+    staffNotes: 'High chair reserved at table 12.',
+    createdAt: '2026-09-03T18:40:00Z'
+  },
+  {
+    id: 'JAL-1004',
+    customerName: 'Marcus Bennett',
+    phone: '+971 56 333 8812',
+    email: 'm.bennett@example.com',
+    guestsCount: 2,
+    date: '2026-09-05',
+    time: '18:15',
+    seatingPreference: 'indoor',
+    specialRequests: 'Casual dinner after desert safari.',
+    status: 'seated',
+    tableNumber: 'Table T-06',
+    staffNotes: 'Seated by Ahmed at 18:18. Ordered starters.',
+    createdAt: '2026-09-05T11:00:00Z'
+  },
+  {
+    id: 'JAL-1005',
+    customerName: 'Fatima Al-Nuaimi',
+    phone: '+971 50 876 5432',
+    guestsCount: 5,
+    date: '2026-09-06',
+    time: '19:45',
+    seatingPreference: 'family-booth',
+    specialRequests: 'Family get-together.',
+    status: 'confirmed',
+    tableNumber: 'Booth B-2',
+    staffNotes: 'Confirmed via WhatsApp.',
+    createdAt: '2026-09-04T19:10:00Z'
+  },
+  {
+    id: 'JAL-1006',
+    customerName: 'David & Lisa Miller',
+    phone: '+971 58 222 9011',
+    guestsCount: 3,
+    date: '2026-09-06',
+    time: '20:30',
+    seatingPreference: 'terrace',
+    status: 'pending',
+    createdAt: '2026-09-05T09:30:00Z'
+  },
+  {
+    id: 'JAL-1007',
+    customerName: 'Dr. Omar Qasim',
+    phone: '+971 50 999 1234',
+    guestsCount: 8,
+    date: '2026-09-07',
+    time: '20:00',
+    seatingPreference: 'indoor',
+    specialRequests: 'Colleagues dinner party. Needs combined tables.',
+    status: 'confirmed',
+    tableNumber: 'Tables T-14 & T-15',
+    staffNotes: 'Double table setup arranged.',
+    createdAt: '2026-09-02T16:00:00Z'
+  }
+];

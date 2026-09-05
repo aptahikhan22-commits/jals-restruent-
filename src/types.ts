@@ -38,6 +38,12 @@ export interface MenuItem {
   isVegetarian?: boolean;
 }
 
+export interface ReviewResponse {
+  respondedAt: string;
+  respondedBy: string;
+  message: string;
+}
+
 export interface Review {
   id: string;
   author: string;
@@ -50,6 +56,27 @@ export interface Review {
   visitType?: string;
   isUserSubmitted?: boolean;
   likes?: number;
+  status?: 'published' | 'hidden';
+  managementResponse?: ReviewResponse;
+}
+
+export type ReservationStatus = 'pending' | 'confirmed' | 'seated' | 'completed' | 'cancelled';
+export type SeatingPreference = 'indoor' | 'terrace' | 'family-booth' | 'any';
+
+export interface Reservation {
+  id: string;
+  customerName: string;
+  phone: string;
+  email?: string;
+  guestsCount: number;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  seatingPreference: SeatingPreference;
+  specialRequests?: string;
+  status: ReservationStatus;
+  createdAt: string;
+  tableNumber?: string;
+  staffNotes?: string;
 }
 
 export interface GalleryItem {

@@ -1,9 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Phone, MapPin, ArrowRight, Calendar } from 'lucide-react';
 import { restaurantData } from '../data/restaurant';
 
-export const FinalCTA: React.FC = () => {
+interface FinalCTAProps {
+  onOpenReservation?: () => void;
+}
+
+export const FinalCTA: React.FC<FinalCTAProps> = ({ onOpenReservation }) => {
   return (
     <section
       id="cta"
@@ -49,7 +53,20 @@ export const FinalCTA: React.FC = () => {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full sm:w-auto">
+            {/* Book a Table Button */}
+            {onOpenReservation && (
+              <button
+                type="button"
+                id="final-cta-book-table-btn"
+                onClick={onOpenReservation}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#C9A35B] hover:bg-[#b89149] text-[#17110D] font-bold text-sm tracking-wider uppercase transition-all duration-300 shadow-xl hover:shadow-[#C9A35B]/30 transform hover:-translate-y-1"
+              >
+                <Calendar className="w-4 h-4 text-[#17110D]" />
+                <span>BOOK TABLE ONLINE</span>
+              </button>
+            )}
+
             {/* Get Directions Button */}
             <a
               href={restaurantData.googleMapsUrl}
@@ -66,7 +83,7 @@ export const FinalCTA: React.FC = () => {
             <a
               href={`tel:${restaurantData.phoneRaw}`}
               id="final-cta-call-jals-btn"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#211812]/90 hover:bg-[#211812] text-[#F8F3EA] hover:text-[#C9A35B] border border-[#DCCBB5]/40 hover:border-[#C9A35B] font-semibold text-sm tracking-wider uppercase backdrop-blur-md transition-all duration-300 transform hover:-translate-y-1"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-[#211812]/90 hover:bg-[#211812] text-[#F8F3EA] hover:text-[#C9A35B] border border-[#DCCBB5]/40 hover:border-[#C9A35B] font-semibold text-sm tracking-wider uppercase backdrop-blur-md transition-all duration-300 transform hover:-translate-y-1"
             >
               <Phone className="w-4 h-4 text-[#C9A35B]" />
               <span>CALL JAL’S ({restaurantData.phone})</span>

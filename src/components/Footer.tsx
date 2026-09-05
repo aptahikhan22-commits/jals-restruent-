@@ -1,8 +1,13 @@
 import React from 'react';
-import { MapPin, Phone, Star, ArrowUp } from 'lucide-react';
+import { MapPin, Phone, Star, ArrowUp, Shield, Calendar } from 'lucide-react';
 import { restaurantData } from '../data/restaurant';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+  onOpenReservation?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenReservation }) => {
   const footerLinks = [
     { label: 'Home', href: '#home' },
     { label: 'Story', href: '#story' },
@@ -61,6 +66,19 @@ export const Footer: React.FC = () => {
                   </a>
                 </li>
               ))}
+              {onOpenReservation && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={onOpenReservation}
+                    id="footer-nav-reserve-table"
+                    className="text-[#C9A35B] hover:text-[#F8F3EA] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 text-left font-medium"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Reserve Table</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -100,9 +118,23 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#DCCBB5]/60">
           <p>© 2026 JAL’S Restaurant & Cafe. All rights reserved.</p>
 
-          <p className="italic text-[#DCCBB5]/40">
-            A locally owned culinary destination in Ras Al Khaimah
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="italic text-[#DCCBB5]/40 hidden sm:inline">
+              A locally owned culinary destination in Ras Al Khaimah
+            </p>
+
+            {onOpenAdmin && (
+              <button
+                type="button"
+                id="footer-staff-admin-btn"
+                onClick={onOpenAdmin}
+                className="inline-flex items-center gap-1.5 text-[#DCCBB5]/60 hover:text-[#C9A35B] transition-colors px-2.5 py-1 rounded-md hover:bg-[#211812] border border-transparent hover:border-[#C9A35B]/30"
+              >
+                <Shield className="w-3.5 h-3.5 text-[#C9A35B]" />
+                <span>Staff & Admin Portal</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </footer>

@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Phone, Menu, X, MapPin } from 'lucide-react';
+import { Phone, Menu, X, MapPin, Calendar, Shield } from 'lucide-react';
 import { restaurantData } from '../data/restaurant';
 
 interface NavbarProps {
   onOpenMobileMenu: () => void;
   isMobileMenuOpen: boolean;
+  onOpenReservation: () => void;
+  onOpenAdmin: () => void;
+  isAdminLoggedIn?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu, isMobileMenuOpen }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenMobileMenu,
+  isMobileMenuOpen,
+  onOpenReservation,
+  onOpenAdmin,
+  isAdminLoggedIn
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -77,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu, isMobileMenuOp
         </nav>
 
         {/* Desktop Actions & CTA */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <a
             href={`tel:${restaurantData.phoneRaw}`}
             id="nav-phone-call-btn"
@@ -87,17 +96,52 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu, isMobileMenuOp
             <span>{restaurantData.phone}</span>
           </a>
 
+          <button
+            type="button"
+            id="nav-book-table-btn"
+            onClick={onOpenReservation}
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-[#211812] hover:bg-[#2C1F17] text-[#F8F3EA] border border-[#C9A35B]/40 hover:border-[#C9A35B] text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow-md"
+          >
+            <Calendar className="w-3.5 h-3.5 text-[#C9A35B]" />
+            <span>Reserve Table</span>
+          </button>
+
           <a
             href="#location"
             id="nav-visit-jals-btn"
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#A84E32] hover:bg-[#914028] text-[#F7F1E7] text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#A84E32] hover:bg-[#914028] text-[#F7F1E7] text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           >
             Visit JAL’S
           </a>
+
+          <button
+            type="button"
+            id="nav-admin-portal-btn"
+            onClick={onOpenAdmin}
+            className={`p-2 rounded-full border text-xs transition-colors ${
+              isAdminLoggedIn
+                ? 'bg-[#C9A35B] text-[#17110D] border-[#C9A35B]'
+                : 'bg-[#17110D]/70 text-[#DCCBB5]/70 hover:text-[#C9A35B] border-[#DCCBB5]/20 hover:border-[#C9A35B]/40'
+            }`}
+            title="Staff & Admin Portal (Manage Reviews & Bookings)"
+            aria-label="Staff Portal"
+          >
+            <Shield className="w-3.5 h-3.5" />
+          </button>
         </div>
 
         {/* Mobile Hamburger Button */}
         <div className="flex items-center gap-2 lg:hidden">
+          <button
+            type="button"
+            id="nav-mobile-book-btn"
+            onClick={onOpenReservation}
+            className="p-2 text-[#F8F3EA] bg-[#211812]/80 border border-[#DCCBB5]/20 rounded-full hover:bg-[#A84E32] transition-colors"
+            aria-label="Reserve a Table"
+          >
+            <Calendar className="w-4 h-4 text-[#C9A35B]" />
+          </button>
+
           <a
             href={`tel:${restaurantData.phoneRaw}`}
             id="nav-mobile-call-icon"
@@ -106,6 +150,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu, isMobileMenuOp
           >
             <Phone className="w-4 h-4 text-[#C9A35B]" />
           </a>
+
+          <button
+            type="button"
+            id="nav-mobile-admin-btn"
+            onClick={onOpenAdmin}
+            className="p-2 text-[#DCCBB5]/80 bg-[#211812]/80 border border-[#DCCBB5]/20 rounded-full hover:text-[#C9A35B] transition-colors"
+            aria-label="Staff Admin"
+          >
+            <Shield className="w-4 h-4" />
+          </button>
 
           <button
             id="navbar-mobile-toggle-btn"

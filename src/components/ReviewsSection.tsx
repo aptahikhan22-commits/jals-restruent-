@@ -11,7 +11,8 @@ import {
   Sparkles,
   Utensils,
   Filter,
-  Check
+  Check,
+  ShieldCheck
 } from 'lucide-react';
 import { reviewsData as initialReviewsData, reviewSummary } from '../data/reviews';
 import { Review } from '../types';
@@ -20,8 +21,18 @@ import { WriteReviewModal } from './WriteReviewModal';
 const STORAGE_KEY = 'jals_restaurant_guest_reviews_v1';
 const LIKES_STORAGE_KEY = 'jals_restaurant_liked_reviews_v1';
 
-export const ReviewsSection: React.FC = () => {
-  const [reviews, setReviews] = useState<Review[]>(() => {
+interface ReviewsSectionProps {
+  reviews?: Review[];
+  onAddReview?: (newReview: Omit<Review, 'id' | 'source' | 'verified'>) => void;
+  onDeleteReview?: (id: string) => void;
+}
+
+export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
+  reviews: externalReviews,
+  onAddReview: externalAddReview,
+  onDeleteReview: externalDeleteReview
+}) => {
+  const [internalReviews, setInternalReviews] = useState<Review[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -36,6 +47,8 @@ export const ReviewsSection: React.FC = () => {
     }
     return initialReviewsData;
   });
+
+  const reviews = externalReviews || internalReviews;
 
   const [likedReviews, setLikedReviews] = useState<string[]>(() => {
     try {
@@ -62,6 +75,12 @@ export const ReviewsSection: React.FC = () => {
   };
 
   const handleAddReview = (newReviewData: Omit<Review, 'id' | 'source' | 'verified'>) => {
+    if (externalAddReview) {
+      externalAddReview(newReviewData);
+      showToast('Your review has been published! Thank you for sharing.');
+      return;
+    }
+
     const newReview: Review = {
       ...newReviewData,
       id: `user-rev-${Date.now()}`,
@@ -70,15 +89,21 @@ export const ReviewsSection: React.FC = () => {
     };
 
     const updated = [newReview, ...reviews];
-    setReviews(updated);
+    setInternalReviews(updated);
     saveUserReviews(updated);
 
     showToast('Your review has been published! Thank you for sharing.');
   };
 
   const handleDeleteReview = (id: string) => {
+    if (externalDeleteReview) {
+      externalDeleteReview(id);
+      showToast('Review removed successfully.');
+      return;
+    }
+
     const updated = reviews.filter((r) => r.id !== id);
-    setReviews(updated);
+    setInternalReviews(updated);
     saveUserReviews(updated);
     showToast('Review removed successfully.');
   };
@@ -100,7 +125,7 @@ export const ReviewsSection: React.FC = () => {
       // ignore
     }
 
-    setReviews((prev) =>
+    setInternalReviews((prev) =>
       prev.map((item) => {
         if (item.id === id) {
           const currentLikes = item.likes || 0;
@@ -134,6 +159,9 @@ export const ReviewsSection: React.FC = () => {
   // Filtered reviews
   const filteredReviews = useMemo(() => {
     return reviews.filter((review) => {
+      // Exclude hidden reviews
+      if (review.status === 'hidden') return false;
+
       // Category filter
       if (activeFilter === '5star' && review.rating < 5) return false;
       if (activeFilter === 'guest' && !review.isUserSubmitted) return false;
@@ -398,9 +426,25 @@ export const ReviewsSection: React.FC = () => {
                     )}
 
                     {/* Review Text */}
-                    <p className="font-serif text-base sm:text-lg text-[#F8F3EA] leading-relaxed italic mb-6">
+                    <p className="font-serif text-base sm:text-lg text-[#F8F3EA] leading-relaxed italic mb-4">
                       "{review.text}"
                     </p>
+
+                    {/* Official Management Response */}
+                    {review.managementResponse && (
+                      <div className="mb-5 p-3.5 rounded-2xl bg-[#17110D] border border-[#C9A35B]/35 text-xs text-[#F8F3EA]">
+                        <div className="flex items-center justify-between font-bold text-[#C9A35B] mb-1.5">
+                          <span className="flex items-center gap-1.5">
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#C9A35B]" />
+                            <span>Response from {review.managementResponse.respondedBy}</span>
+                          </span>
+                          <span className="text-[10px] font-normal text-[#DCCBB5]/50">{review.managementResponse.respondedAt}</span>
+                        </div>
+                        <p className="text-[#DCCBB5]/90 leading-relaxed italic">
+                          "{review.managementResponse.message}"
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Author & Footer */}

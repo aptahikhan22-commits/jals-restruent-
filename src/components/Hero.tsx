@@ -1,9 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, MapPin, Star, ChevronDown } from 'lucide-react';
+import { ArrowRight, MapPin, Star, ChevronDown, Calendar } from 'lucide-react';
 import { restaurantData } from '../data/restaurant';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenReservation?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenReservation }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -95,17 +99,30 @@ export const Hero: React.FC = () => {
             <a
               href="#menu"
               id="hero-explore-menu-btn"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#A84E32] hover:bg-[#914028] text-[#F7F1E7] font-semibold text-sm tracking-wider uppercase shadow-xl hover:shadow-[#A84E32]/30 transition-all duration-300 transform hover:-translate-y-1 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-4 rounded-full bg-[#A84E32] hover:bg-[#914028] text-[#F7F1E7] font-semibold text-sm tracking-wider uppercase shadow-xl hover:shadow-[#A84E32]/30 transition-all duration-300 transform hover:-translate-y-1 group"
             >
               <span>EXPLORE THE MENU</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
 
+            {/* Book Table Button */}
+            {onOpenReservation && (
+              <button
+                type="button"
+                id="hero-book-table-btn"
+                onClick={onOpenReservation}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-[#211812]/90 hover:bg-[#2B1F17] text-[#F8F3EA] hover:text-[#C9A35B] border border-[#C9A35B]/50 hover:border-[#C9A35B] font-semibold text-sm tracking-wider uppercase shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <Calendar className="w-4 h-4 text-[#C9A35B]" />
+                <span>BOOK A TABLE</span>
+              </button>
+            )}
+
             {/* Secondary Button */}
             <a
               href="#location"
               id="hero-get-directions-btn"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-transparent hover:bg-[#211812]/60 text-[#F8F3EA] hover:text-[#C9A35B] border border-[#DCCBB5]/40 hover:border-[#C9A35B] font-semibold text-sm tracking-wider uppercase backdrop-blur-xs transition-all duration-300 transform hover:-translate-y-1"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-transparent hover:bg-[#211812]/60 text-[#F8F3EA] hover:text-[#C9A35B] border border-[#DCCBB5]/40 hover:border-[#C9A35B] font-semibold text-sm tracking-wider uppercase backdrop-blur-xs transition-all duration-300 transform hover:-translate-y-1"
             >
               <MapPin className="w-4 h-4 text-[#C9A35B]" />
               <span>GET DIRECTIONS</span>
